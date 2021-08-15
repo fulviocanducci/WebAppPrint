@@ -1,0 +1,30 @@
+﻿@model IEnumerable<WebAppPrint.Models.Item>
+@{
+    ViewData["Title"] = "Pdf";
+    Layout = "~/Views/Shared/_Print.cshtml";
+}
+<h1>Pdf</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Nome
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Uuid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>           
+        </tr>}
+    </tbody>
+</table>
