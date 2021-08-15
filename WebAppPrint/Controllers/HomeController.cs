@@ -40,7 +40,13 @@ namespace WebAppPrint.Controllers
         {
             Items items = new();
             var renderer = new HtmlToPdf();
+            renderer.PrintOptions.MarginTop = 20d;
+            renderer.PrintOptions.MarginLeft = 20d;
+            renderer.PrintOptions.MarginRight = 20d;
+            renderer.PrintOptions.MarginBottom = 20d;
             renderer.PrintOptions.Header.CenterText = "RELATÓRIO GERAL DE CIDADES";
+            renderer.PrintOptions.Header.DisplayLine = true;
+            renderer.PrintOptions.Header.Spacing = 4;
             renderer.PrintOptions.Footer.CenterText = "[page] / [topage]";
             renderer.PrintOptions.Footer.FontSize = 7d;
             PdfDocument doc = await renderer
