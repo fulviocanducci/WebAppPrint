@@ -1,30 +1,75 @@
 ﻿@model IEnumerable<WebAppPrint.Models.Item>
 @{
-    ViewData["Title"] = "Pdf";
-    Layout = "~/Views/Shared/_Print.cshtml";
+  ViewData["Title"] = "Pdf";
+  Layout = "~/Views/Shared/_Print.cshtml";
 }
 <h1>Pdf</h1>
-<table class="table">
+<div>
+  <button onclick="converHTMLFileToPDF()">Print</button>
+  <button onclick="generate()">Print</button>
+</div>
+<div id="target">
+  <table class="table">
     <thead>
-        <tr>
-            <th>
-                Id
-            </th>
-            <th>
-                Nome
-            </th>
-            <th></th>
-        </tr>
+      <tr>
+        <th>
+          Id
+        </th>
+        <th>
+          Nome
+        </th>
+        <th></th>
+      </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+      @foreach (var item in Model)
+      {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Uuid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>           
-        </tr>}
+          <td>
+            @Html.DisplayFor(modelItem => item.Uuid)
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => item.Name)
+          </td>
+        </tr>
+      }
     </tbody>
-</table>
+  </table>
+</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/polyfills.umd.js"></script>
+<script src="~/js/html2canvas.js"></script>
+<script>
+
+  function converHTMLFileToPDF() {
+    const { jsPDF } = window.jspdf;
+    console.log(jsPDF);
+    var doc = new jsPDF('l', 'mm', [1200, 1210]);
+
+    var pdfjs = document.querySelector('#target');
+
+    // Convert HTML to PDF in JavaScript
+    doc.html(pdfjs, {
+      callback: function (doc) {
+        doc.save("output.pdf");
+      },
+      x: 10,
+      y: 10
+    });
+  }
+
+  function generate() {
+    const { jsPDF } = window.jspdf;
+    var doc = new jsPDF("p", "pt", "a4", true);
+    var a4Width = Number(doc.internal.pageSize.getWidth());
+    doc.fromHTML($("#target").html(), 20, 0, {
+      pagesplit: true,
+      "width": (a4Width - 40) // for margin right
+    },
+      function (dispose) {
+        doc.save("PHPLift.pdf");
+      }
+    );
+  }
+</script>

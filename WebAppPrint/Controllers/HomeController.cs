@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PugPdf.Core;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using WebAppPrint.Models;
 
@@ -52,6 +48,12 @@ namespace WebAppPrint.Controllers
             PdfDocument doc = await renderer
                 .RenderHtmlAsPdfAsync(await view.RenderToStringAsync("Home/Pdf", items));
             return new FileContentResult(doc.BinaryData, "application/pdf");
+        }
+
+        public IActionResult Example()
+        {
+            Items items = new();
+            return View("Pdf", items);
         }
     }
 }
